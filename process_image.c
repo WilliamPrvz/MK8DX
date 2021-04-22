@@ -10,7 +10,7 @@
 
 
 static float distance_cm = 0;
-static uint16_t line_position = IMAGE_BUFFER_SIZE/2;	//middle
+static uint16_t line_position = 0;	//bottom line
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
