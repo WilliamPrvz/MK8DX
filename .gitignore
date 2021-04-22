@@ -1,6 +1,6 @@
-.settings
+*.settings
 
-MK8DX.launch
+*.launch
 
 build
 
