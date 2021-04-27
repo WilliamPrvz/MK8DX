@@ -13,7 +13,7 @@
 #include <character_selection.h>
 #include <main.h>
 #include "usbcfg.h"
-
+#include "spi_comm.h"
 #include <chprintf.h>
 
 
@@ -32,30 +32,28 @@ static THD_FUNCTION(CharacterSelection, arg) {
 
 
 
-//		switch(get_selector()) {
-//						case 0: // Mario
-//							set_rgb_led(LED2, 255, 0, 0);
-//							set_rgb_led(LED4, 255, 0, 0);
-//							set_rgb_led(LED6, 0, 0, 255);
-//							set_rgb_led(LED8, 0, 0, 255);
-//
-//						break;
-//
-//						case 1: // Mario
-//							set_rgb_led(LED2, 255, 0, 0);
-//							set_rgb_led(LED4, 255, 0, 0);
-//							set_rgb_led(LED6, 0, 0, 255);
-//							set_rgb_led(LED8, 0, 0, 255);
-//
-//						break;
-//
-//
-//		}
+		switch(get_selector()) {
+						case 0: // Mario
+							set_rgb_led(LED2, 8,70,158);
+							set_rgb_led(LED4, 8,70,158);
+							set_rgb_led(LED6, 194,53,45);
+							set_rgb_led(LED8, 194,53,45);
 
-		set_rgb_led(0, 0, 0, 10);
-		set_rgb_led(1, 0, 0, 10);
-		set_rgb_led(2, 0, 0, 10);
-		set_rgb_led(3, 0, 0, 10);
+						break;
+
+						case 1: // Luigi
+							set_rgb_led(LED2, 24,222,44);
+							set_rgb_led(LED4, 24,222,44);
+							set_rgb_led(LED6, 21,35,255);
+							set_rgb_led(LED8, 21,35,255);
+
+						break;
+
+
+		}
+
+
+
 		chprintf((BaseSequentialStream *)&SDU1, "%4d,", get_selector());
 
 

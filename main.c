@@ -48,6 +48,8 @@ int main(void)
     chSysInit();
     mpu_init();
 
+	spi_comm_start();
+
 
     //starts the serial communication
     serial_start();
@@ -72,11 +74,6 @@ int main(void)
     while (1) {
     	//waits 1 second
         chThdSleepMilliseconds(1000);
-        set_rgb_led(0, 0, 0, 10);
-		set_rgb_led(1, 0, 0, 10);
-		set_rgb_led(2, 0, 0, 10);
-		set_rgb_led(3, 0, 0, 10);
-
     }
 }
 
