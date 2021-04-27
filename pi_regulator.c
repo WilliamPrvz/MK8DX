@@ -1,3 +1,6 @@
+//pi_regulator.c of TP4 camreg
+//Modified to implement the line following
+
 #include "ch.h"
 #include "hal.h"
 #include <math.h>

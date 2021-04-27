@@ -12,8 +12,15 @@
 #include <camera/po8030.h>
 #include <chprintf.h>
 
+#include <leds.h>
+
+
 #include <pi_regulator.h>
 #include <process_image.h>
+#include <character_selection.h>
+
+
+
 
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
 {
@@ -41,6 +48,7 @@ int main(void)
     chSysInit();
     mpu_init();
 
+
     //starts the serial communication
     serial_start();
     //start the USB communication
@@ -51,14 +59,24 @@ int main(void)
 	//inits the motors
 	motors_init();
 
-	//stars the threads for the pi regulator and the processing of the image
-	pi_regulator_start();
-	process_image_start();
 
+
+
+	//stars the threads for the pi regulator and the processing of the image
+	//pi_regulator_start();
+	//process_image_start();
+
+	//stars the threads for the character selection
+	character_selection_start();
     /* Infinite loop. */
     while (1) {
     	//waits 1 second
         chThdSleepMilliseconds(1000);
+        set_rgb_led(0, 0, 0, 10);
+		set_rgb_led(1, 0, 0, 10);
+		set_rgb_led(2, 0, 0, 10);
+		set_rgb_led(3, 0, 0, 10);
+
     }
 }
 
