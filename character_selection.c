@@ -15,6 +15,10 @@
 #include "usbcfg.h"
 #include "spi_comm.h"
 #include <chprintf.h>
+#include <fat.h>
+#include <audio/play_sound_file.h>
+#include <audio/audio_thread.h>
+#include <sdio.h>
 
 
 
@@ -23,10 +27,14 @@ static THD_WORKING_AREA(waCharacterSelection, 256);
 static THD_FUNCTION(CharacterSelection, arg) {
 
 
+
 	chRegSetThreadName(__FUNCTION__);
 	(void)arg;
 
 	systime_t time;
+
+    sdio_connect();
+
 	while (1){
 		time = chVTGetSystemTime();
 
@@ -36,6 +44,9 @@ static THD_FUNCTION(CharacterSelection, arg) {
 
 
 						case 0: // Mario
+
+							playSoundFile("mario_letsgo.wav", SF_SIMPLE_PLAY);
+
 							set_rgb_led(LED2, 100,0,0);
 							set_rgb_led(LED4, 100,0,0);
 							set_rgb_led(LED6, 0,0,100);
@@ -100,9 +111,6 @@ static THD_FUNCTION(CharacterSelection, arg) {
 						break;
 
 		}
-
-
-		//chprintf((BaseSequentialStream *)&SDU1, "%4d,", get_selector());
 
 
 

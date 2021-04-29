@@ -12,9 +12,12 @@
 #include <camera/po8030.h>
 #include <chprintf.h>
 #include "spi_comm.h"
+#include <fat.h>
+#include <audio/play_sound_file.h>
+#include <audio/audio_thread.h>
 
 #include <leds.h>
-
+#include <sdio.h>
 
 #include <pi_regulator.h>
 #include <process_image.h>
@@ -57,7 +60,17 @@ int main(void)
     //start the USB communication
     usb_start();
     spi_comm_start();
+
+    //clear the leds
     clear_leds();
+
+
+    //inits the microSD card
+    sdio_start();
+
+    dac_start();
+    playSoundFileStart();
+
     //starts the camera
     dcmi_start();
 	po8030_start();
