@@ -21,7 +21,9 @@
 #include <sdio.h>
 
 
-//FAIRE DES COMMENTAIRES PARTOUT
+//FAIRE DES COMMENTAIRES PARTOUT:
+//variables à expliciter
+//couleurs RGB à mettre
 
 static THD_WORKING_AREA(waCharacterSelection, 256);
 static THD_FUNCTION(CharacterSelection, arg) {
@@ -138,6 +140,8 @@ static THD_FUNCTION(CharacterSelection, arg) {
 						break;
 						
 						default: 
+							
+							stopCurrentSoundFile();
 							
 							clear_leds();
 							
