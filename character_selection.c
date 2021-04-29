@@ -67,6 +67,9 @@ static THD_FUNCTION(CharacterSelection, arg) {
 						break;
 
 						case 1: // Luigi
+						
+							playSoundFile("Son_MK8DX/luigi_ohyeahluigi.wav", SF_SIMPLE_PLAY);
+							
 							set_rgb_led(LED2, 9,87,17);
 							set_rgb_led(LED4, 9,87,17);
 							set_rgb_led(LED6, 8,13,100);
@@ -75,6 +78,9 @@ static THD_FUNCTION(CharacterSelection, arg) {
 						break;
 
 						case 2: // Peach
+						
+							playSoundFile("Son_MK8DX/peach_peach.wav", SF_SIMPLE_PLAY);
+						
 							set_rgb_led(LED2, 94,57,74);
 							set_rgb_led(LED4, 94,57,74);
 							set_rgb_led(LED6, 33,73,82);
@@ -83,6 +89,9 @@ static THD_FUNCTION(CharacterSelection, arg) {
 						break;
 
 						case 3: // Daisy
+						
+							playSoundFile("Son_MK8DX/daisy_yeahdaisy.wav", SF_SIMPLE_PLAY);
+						
 							set_rgb_led(LED2, 100,100,20);
 							set_rgb_led(LED4, 100,100,20);
 							set_rgb_led(LED6, 80,40,0);
@@ -91,6 +100,8 @@ static THD_FUNCTION(CharacterSelection, arg) {
 						break;
 
 						case 4: // Toad
+						
+							playSoundFile("Son_MK8DX/toad.wav", SF_SIMPLE_PLAY);
 							set_rgb_led(LED2, 95,14,6);
 							set_rgb_led(LED4, 95,14,6);
 							set_rgb_led(LED6, 97,97,97);
@@ -99,6 +110,9 @@ static THD_FUNCTION(CharacterSelection, arg) {
 						break;
 
 						case 5: // Yoshi
+						
+							playSoundFile("Son_MK8DX/yoshi.wav", SF_SIMPLE_PLAY);
+							
 							set_rgb_led(LED2, 1,86,0);
 							set_rgb_led(LED4, 1,86,0);
 							set_rgb_led(LED6, 96,96,96);
@@ -107,6 +121,9 @@ static THD_FUNCTION(CharacterSelection, arg) {
 						break;
 
 						case 6: // Wario
+						
+							playSoundFile("Son_MK8DX/wario_wariotime.wav", SF_SIMPLE_PLAY);
+							
 							set_rgb_led(LED2, 94,100,8);
 							set_rgb_led(LED4, 94,100,8);
 							set_rgb_led(LED6, 61,13,98);
@@ -115,6 +132,9 @@ static THD_FUNCTION(CharacterSelection, arg) {
 						break;
 
 						case 7: // Waluigi
+						
+							playSoundFile("Son_MK8DX/waluigi_waluigi.wav", SF_SIMPLE_PLAY);	
+							
 							set_rgb_led(LED2, 61,13,98);
 							set_rgb_led(LED4, 61,13,98);
 							set_rgb_led(LED6, 0,0,25);
