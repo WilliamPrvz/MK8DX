@@ -11,6 +11,7 @@
 #include <motors.h>
 #include <camera/po8030.h>
 #include <chprintf.h>
+#include "spi_comm.h"
 
 #include <leds.h>
 
@@ -48,13 +49,15 @@ int main(void)
     chSysInit();
     mpu_init();
 
-	spi_comm_start();
+
 
 
     //starts the serial communication
     serial_start();
     //start the USB communication
     usb_start();
+    spi_comm_start();
+    clear_leds();
     //starts the camera
     dcmi_start();
 	po8030_start();
@@ -65,8 +68,8 @@ int main(void)
 
 
 	//stars the threads for the pi regulator and the processing of the image
-	//pi_regulator_start();
-	//process_image_start();
+	pi_regulator_start();
+	process_image_start();
 
 	//stars the threads for the character selection
 	character_selection_start();
@@ -74,6 +77,7 @@ int main(void)
     while (1) {
     	//waits 1 second
         chThdSleepMilliseconds(1000);
+
     }
 }
 

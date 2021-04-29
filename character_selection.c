@@ -31,13 +31,15 @@ static THD_FUNCTION(CharacterSelection, arg) {
 		time = chVTGetSystemTime();
 
 
-	// Faudra faire attention aux Magic numbers avec les RGB je pense
+ //Faudra faire attention aux Magic numbers avec les RGB je pense
 		switch(get_selector()) {
+
+
 						case 0: // Mario
 							set_rgb_led(LED2, 100,0,0);
 							set_rgb_led(LED4, 100,0,0);
-							set_rgb_led(LED6, 0,100,100);
-							set_rgb_led(LED8, 0,100,100);
+							set_rgb_led(LED6, 0,0,100);
+							set_rgb_led(LED8, 0,0,100);
 
 						break;
 
@@ -56,7 +58,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 							set_rgb_led(LED8, 33,73,82);
 
 						break;
-						
+
 						case 3: // Daisy
 							set_rgb_led(LED2, 100,100,20);
 							set_rgb_led(LED4, 100,100,20);
@@ -72,7 +74,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 							set_rgb_led(LED8, 97,97,97);
 
 						break;
-						
+
 						case 5: // Yoshi
 							set_rgb_led(LED2, 1,86,0);
 							set_rgb_led(LED4, 1,86,0);
@@ -88,7 +90,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 							set_rgb_led(LED8, 61,13,98);
 
 						break;
-						
+
 						case 7: // Waluigi
 							set_rgb_led(LED2, 61,13,98);
 							set_rgb_led(LED4, 61,13,98);
@@ -100,8 +102,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 		}
 
 
-
-		chprintf((BaseSequentialStream *)&SDU1, "%4d,", get_selector());
+		//chprintf((BaseSequentialStream *)&SDU1, "%4d,", get_selector());
 
 
 
@@ -109,20 +110,9 @@ static THD_FUNCTION(CharacterSelection, arg) {
 	}
 
 
-//	if (character == 1){
-//		set_rgb_led(LED2, 255, 0, 0);
-//		set_rgb_led(LED4, 255, 0, 0);
-//		set_rgb_led(LED6, 0, 0, 255);
-//		set_rgb_led(LED8, 0, 0, 255);
-//
-//	};
-
-	//100Hz
-	//chThdSleepUntilWindowed(time, time + MS2ST(10));
 
 }
 void character_selection_start(void){
 	chThdCreateStatic(waCharacterSelection, sizeof(waCharacterSelection), NORMALPRIO, CharacterSelection, NULL);
-	chprintf((BaseSequentialStream *)&SDU1, "hello");
 }
 
