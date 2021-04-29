@@ -9,6 +9,7 @@
 #define LOOP_CONTROL_H_
 
 
+void loop_control_start(void);
 
 
 

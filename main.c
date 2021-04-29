@@ -12,6 +12,8 @@
 #include <camera/po8030.h>
 #include <chprintf.h>
 #include "spi_comm.h"
+#include "sensors/proximity.h"
+#include "loop_control.h"
 
 #include <leds.h>
 
@@ -21,6 +23,9 @@
 #include <character_selection.h>
 
 
+messagebus_t bus;
+MUTEX_DECL(bus_lock);
+CONDVAR_DECL(bus_condvar);
 
 
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
@@ -65,7 +70,12 @@ int main(void)
 	motors_init();
 
 
+	//starts the threads for ir sensor
+	messagebus_init(&bus, &bus_lock, &bus_condvar);
+	proximity_start();
+	calibrate_ir();
 
+	loop_control_start();
 
 	//stars the threads for the pi regulator and the processing of the image
 	pi_regulator_start();
