@@ -34,26 +34,30 @@ static THD_FUNCTION(CharacterSelection, arg) {
 	systime_t time;
 
     sdio_connect();
+
+    int old_status = 0;
+    
+    
+		
 //	int k = 0;
 	while (1){
+		
+		int status = get_selector();
 		time = chVTGetSystemTime();
 
+		if (status =! old_status) {
+			
+			status = old_status; 
 
  //Faudra faire attention aux Magic numbers avec les RGB je pense
-		switch(get_selector()) {
+			switch(status) {
 
 
-						case 0:; // Mario
+						case 0: // Mario
 
 
-							if (k==0) {
 
-								playSoundFile("mario_letsgo.wav", SF_SIMPLE_PLAY);
-								k++;
-
-							}
-
-
+							playSoundFile("mario_letsgo.wav", SF_SIMPLE_PLAY);
 
 							set_rgb_led(LED2, 100,0,0);
 							set_rgb_led(LED4, 100,0,0);
@@ -121,7 +125,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 		}
 
 
-
+		}
 		chThdSleepUntilWindowed(time, time + MS2ST(10));
 	}
 
