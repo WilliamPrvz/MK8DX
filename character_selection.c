@@ -45,9 +45,9 @@ static THD_FUNCTION(CharacterSelection, arg) {
 		int status = get_selector();
 		time = chVTGetSystemTime();
 
-		if (status =! old_status) {
+		if (status != old_status) {
 			
-			status = old_status; 
+			old_status = status;
 
  //Faudra faire attention aux Magic numbers avec les RGB je pense
 			switch(status) {
@@ -57,7 +57,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 
 
 
-							playSoundFile("mario_letsgo.wav", SF_SIMPLE_PLAY);
+							playSoundFile("mario_mariotime.wav", SF_SIMPLE_PLAY);
 
 							set_rgb_led(LED2, 100,0,0);
 							set_rgb_led(LED4, 100,0,0);
