@@ -50,9 +50,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 			switch(status) {
 
 
-						case Mario:
-
-
+						case MARIO:
 
 							playSoundFile("Son_MK8DX/itsame_mario.wav", SF_FORCE_CHANGE);
 
@@ -63,7 +61,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 
 						break;
 
-						case Luigi:
+						case LUIGI:
 						
 							playSoundFile("Son_MK8DX/luigi_ohyeahluigi.wav", SF_FORCE_CHANGE);
 							
@@ -74,7 +72,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 
 						break;
 
-						case Peach:
+						case PEACH:
 						
 							playSoundFile("Son_MK8DX/peach_peach.wav", SF_FORCE_CHANGE);
 						
@@ -85,7 +83,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 
 						break;
 
-						case Daisy:
+						case DAISY:
 						
 							playSoundFile("Son_MK8DX/daisy_yeahdaisy.wav", SF_FORCE_CHANGE);
 						
@@ -96,7 +94,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 
 						break;
 
-						case Toad:
+						case TOAD:
 						
 							playSoundFile("Son_MK8DX/toad.wav", SF_FORCE_CHANGE);
 							set_rgb_led(LED2, 95,14,6);
@@ -106,7 +104,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 
 						break;
 
-						case Yoshi:
+						case YOSHI:
 						
 							playSoundFile("Son_MK8DX/yoshi.wav", SF_FORCE_CHANGE);
 							
@@ -117,18 +115,18 @@ static THD_FUNCTION(CharacterSelection, arg) {
 
 						break;
 
-						case Wario:
+						case WARIO:
 						
 							playSoundFile("Son_MK8DX/wario_wariotime.wav", SF_FORCE_CHANGE);
 							
 							set_rgb_led(LED2, 100,100,0);
-							set_rgb_led(LED4, 94,100,8);
+							set_rgb_led(LED4, 61,13,98);
 							set_rgb_led(LED6, 100,100,0);
-							set_rgb_led(LED8, 94,100,8);
+							set_rgb_led(LED8, 61,13,98);
 
 						break;
 
-						case Waluigi:
+						case WALUIGI:
 						
 							playSoundFile("Son_MK8DX/waluigi_waluigi.wav", SF_FORCE_CHANGE);
 							
@@ -138,7 +136,12 @@ static THD_FUNCTION(CharacterSelection, arg) {
 							set_rgb_led(LED8, 0,0,25);
 
 						break;
-
+						
+						default: 
+							
+							clear_leds();
+							
+						break;
 		}
 
 

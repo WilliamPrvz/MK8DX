@@ -24,7 +24,7 @@ extern "C" {
 #define KI 						3.5f	//must not be zero
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
 
-enum mario_characters{Mario, Luigi, Peach, Daisy, Toad, Yoshi, Wario, Waluigi};
+
 
 /** Robot wide IPC bus. */
 extern messagebus_t bus;
