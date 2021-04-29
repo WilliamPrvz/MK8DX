@@ -34,7 +34,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 	systime_t time;
 
     sdio_connect();
-
+//	int k = 0;
 	while (1){
 		time = chVTGetSystemTime();
 
@@ -43,9 +43,17 @@ static THD_FUNCTION(CharacterSelection, arg) {
 		switch(get_selector()) {
 
 
-						case 0: // Mario
+						case 0:; // Mario
 
-							playSoundFile("mario_letsgo.wav", SF_SIMPLE_PLAY);
+
+							if (k==0) {
+
+								playSoundFile("mario_letsgo.wav", SF_SIMPLE_PLAY);
+								k++;
+
+							}
+
+
 
 							set_rgb_led(LED2, 100,0,0);
 							set_rgb_led(LED4, 100,0,0);
