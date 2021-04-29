@@ -57,7 +57,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 
 
 
-							playSoundFile("mario_mariotime.wav", SF_SIMPLE_PLAY);
+							playSoundFile("Son_MK8DX/itsame_mario.wav", SF_SIMPLE_PLAY);
 
 							set_rgb_led(LED2, 100,0,0);
 							set_rgb_led(LED4, 100,0,0);
