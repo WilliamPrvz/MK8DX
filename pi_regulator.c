@@ -58,8 +58,11 @@ static THD_FUNCTION(PiRegulator, arg) {
 		int16_t speed = 300;
 		int16_t speed_correction = 0;
 
+
+
 		while(1){
 			time = chVTGetSystemTime();
+			chprintf((BaseSequentialStream *)&SDU1, "ca tourne\r\n");
 			
 	//        //computes the speed to give to the motors
 	//        //distance_cm is modified by the image processing thread
