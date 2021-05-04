@@ -61,10 +61,9 @@ static THD_FUNCTION(PiRegulator, arg) {
 
 	while(1){
 
+		time = chVTGetSystemTime();
+
 		if(!get_circuit_completed()) {
-			
-			time = chVTGetSystemTime();
-			chprintf((BaseSequentialStream *)&SDU1, "ca tourne\r\n");
 			
 	//        //computes the speed to give to the motors
 	//        //distance_cm is modified by the image processing thread
@@ -81,6 +80,11 @@ static THD_FUNCTION(PiRegulator, arg) {
 			//applies the speed from the PI regulator and the correction for the rotation
 			right_motor_set_speed(speed - ROTATION_COEFF * speed_correction);
 			left_motor_set_speed(speed + ROTATION_COEFF * speed_correction);
+		}
+
+		else {
+			right_motor_set_speed(0);
+			left_motor_set_speed(0);
 		}
 
 		//100Hz
