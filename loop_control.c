@@ -11,6 +11,10 @@
 #include <main.h>
 #include <chprintf.h>
 #include "usbcfg.h"
+#include "spi_comm.h"
+#include <audio/play_sound_file.h>
+#include <audio/audio_thread.h>
+#include <sdio.h>
 
 static bool circuit_completed = false; // becomes true once 3 loops are completed
 
@@ -34,10 +38,11 @@ static THD_FUNCTION(LoopControl, arg) {
 
 		}
 
-		if (loop_number >= 3){
+		if (loop_number >= MAX_LOOPS){
 		
+			playSoundFile("Son_MK8DX/mario_finish.wav", SF_FORCE_CHANGE);
 			circuit_completed = true;
-
+			
 		}
 		chThdSleepUntilWindowed(time, time + MS2ST(10));
 	}

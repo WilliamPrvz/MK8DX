@@ -83,8 +83,12 @@ static THD_FUNCTION(PiRegulator, arg) {
 		}
 
 		else {
-			right_motor_set_speed(0);
-			left_motor_set_speed(0);
+			while (speed != 0){
+				right_motor_set_speed(speed);
+				left_motor_set_speed(speed);
+				speed--;
+				chThdSleepMilliseconds(100);
+			}
 		}
 
 		//100Hz
