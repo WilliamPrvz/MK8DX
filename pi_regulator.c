@@ -13,6 +13,10 @@
 #include <pi_regulator.h>
 #include <process_image.h>
 #include <loop_control.h>
+#include <button.h>
+#include <audio/play_sound_file.h>
+#include <audio/audio_thread.h>
+
 
 //simple PI regulator implementation
 int16_t pi_regulator(float distance, float goal){

@@ -25,10 +25,14 @@
 #include <process_image.h>
 #include <character_selection.h>
 
+#include <button.h>
+
 
 messagebus_t bus;
 MUTEX_DECL(bus_lock);
 CONDVAR_DECL(bus_condvar);
+
+bool has_been_pressed = false;
 
 
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 
@@ -88,18 +92,25 @@ int main(void)
 	proximity_start();
 	calibrate_ir();
 
-	loop_control_start();
-
 	//stars the threads for the pi regulator and the processing of the image
-	pi_regulator_start();
+
+
 	process_image_start();
 
 	//stars the threads for the character selection
 	character_selection_start();
+
     /* Infinite loop. */
     while (1) {
+
+    	if (button_is_pressed() && !has_been_pressed){
+
+    		has_been_pressed = true;
+        	pi_regulator_start();
+        	loop_control_start();
+    	}
     	//waits 1 second
-        chThdSleepMilliseconds(1000);
+        chThdSleepMilliseconds(100);
 
     }
 }

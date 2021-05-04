@@ -154,6 +154,9 @@ static THD_FUNCTION(CharacterSelection, arg) {
 
 
 		}
+
+
+
 		chThdSleepUntilWindowed(time, time + MS2ST(10));
 	}
 
