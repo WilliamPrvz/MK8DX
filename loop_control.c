@@ -12,6 +12,7 @@
 #include <chprintf.h>
 #include "usbcfg.h"
 
+static unsigned int loop_number = 0;
 
 static THD_WORKING_AREA(waLoopControl, 256);
 static THD_FUNCTION(LoopControl, arg) {
@@ -21,12 +22,10 @@ static THD_FUNCTION(LoopControl, arg) {
 
 	systime_t time;
 
-	//unsigned int loopNb = 0;
-
 	while (1){
 		time = chVTGetSystemTime();
 
-//		while ((get_prox(IR_RIGHT)<10)&&(get_prox(IR_LEFT)<10)){
+//		if ((get_prox(IR_RIGHT)<10)&&(get_prox(IR_LEFT)<10)){
 //			loopNb ++;
 //			chThdSleepMilliseconds(1000);
 //
@@ -36,8 +35,8 @@ static THD_FUNCTION(LoopControl, arg) {
 //
 //		}
 
-//		chprintf((BaseSequentialStream *)&SDU1, "%4d,", get_prox(IR_RIGHT));
-//		chprintf((BaseSequentialStream *)&SDU1, "%4d,", get_prox(IR_LEFT));
+	chprintf((BaseSequentialStream *)&SDU1, "Right : %4d,", get_prox(IR_RIGHT));
+	chprintf((BaseSequentialStream *)&SDU1, "Left : %4d,", get_prox(IR_LEFT));
 
 
 		chThdSleepUntilWindowed(time, time + MS2ST(10));
