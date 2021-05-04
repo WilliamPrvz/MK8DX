@@ -53,14 +53,16 @@ static THD_FUNCTION(PiRegulator, arg) {
 
     systime_t time;
     
-	if(!get_circuit_completed()) {
-		
-		int16_t speed = 300;
-		int16_t speed_correction = 0;
+	
+	int16_t speed = 300;
+	int16_t speed_correction = 0;
 
 
 
-		while(1){
+	while(1){
+
+		if(!get_circuit_completed()) {
+			
 			time = chVTGetSystemTime();
 			chprintf((BaseSequentialStream *)&SDU1, "ca tourne\r\n");
 			
@@ -79,10 +81,10 @@ static THD_FUNCTION(PiRegulator, arg) {
 			//applies the speed from the PI regulator and the correction for the rotation
 			right_motor_set_speed(speed - ROTATION_COEFF * speed_correction);
 			left_motor_set_speed(speed + ROTATION_COEFF * speed_correction);
-
-			//100Hz
-			chThdSleepUntilWindowed(time, time + MS2ST(10));
 		}
+
+		//100Hz
+		chThdSleepUntilWindowed(time, time + MS2ST(10));
 	}
 }
 
