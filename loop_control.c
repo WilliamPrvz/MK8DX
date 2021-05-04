@@ -35,8 +35,8 @@ static THD_FUNCTION(LoopControl, arg) {
 //
 //		}
 
-	chprintf((BaseSequentialStream *)&SDU1, "Right : %4d,", get_prox(IR_RIGHT));
-	chprintf((BaseSequentialStream *)&SDU1, "Left : %4d,", get_prox(IR_LEFT));
+	chprintf((BaseSequentialStream *)&SDU1, "Right : %4d, \r\n", get_prox(IR_RIGHT));
+	chprintf((BaseSequentialStream *)&SDU1, "Left : %4d,\r\n", get_prox(IR_LEFT));
 
 
 		chThdSleepUntilWindowed(time, time + MS2ST(10));
