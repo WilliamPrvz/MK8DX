@@ -92,6 +92,9 @@ static THD_FUNCTION(PiRegulator, arg) {
 				chThdSleepMilliseconds(100);
 				
 			}
+			right_motor_set_speed(0);
+			left_motor_set_speed(0);
+
 		}
 
 		//100Hz

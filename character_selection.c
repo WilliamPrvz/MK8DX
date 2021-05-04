@@ -40,6 +40,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
     int old_status = 0;
     
     playSoundFile("Son_MK8DX/choose_character.wav", SF_FORCE_CHANGE);
+    chThdSleepMilliseconds(2000);
     
     
 	while (1){
