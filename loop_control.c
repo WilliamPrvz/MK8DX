@@ -34,16 +34,18 @@ static THD_FUNCTION(LoopControl, arg) {
 
 		}
 
-		//if (loop_number >= 3){
+		if (loop_number >= 3){
 		
-			//circuit_completed = true;
+			circuit_completed = true;
 
-		//}
+		}
 
 	chprintf((BaseSequentialStream *)&SDU1, "Right : %4d, \r\n", get_prox(IR_RIGHT));
 	chprintf((BaseSequentialStream *)&SDU1, "Left : %4d,\r\n", get_prox(IR_LEFT));
 	
-	chprintf((BaseSequentialStream *)&SDU1, "loop_number : %f, \r\n", loop_number);
+	chprintf((BaseSequentialStream *)&SDU1, "loop_number : %u, \r\n", loop_number);
+	chprintf((BaseSequentialStream *)&SDU1, "circuit_completed : %d, \r\n", circuit_completed);
+
 
 
 		chThdSleepUntilWindowed(time, time + MS2ST(10));
