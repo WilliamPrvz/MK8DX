@@ -109,3 +109,19 @@ static THD_FUNCTION(PiRegulator, arg) {
 void pi_regulator_start(void){
 	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO, PiRegulator, NULL);
 }
+
+
+//void pi_regulator_suspend(void){
+//	chThdSuspendS();
+//}
+//
+//void pi_regulator_resume(void){
+//	chThdResume();
+//}
+
+
+//void pi_regulator_stop(void){
+//chThdTerminate(PiRegulator);
+//	chThdWait(PiRegulator);
+//	PiRegulator = NULL;
+//}
