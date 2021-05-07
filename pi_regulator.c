@@ -58,7 +58,7 @@ static THD_FUNCTION(PiRegulator, arg) {
     systime_t time;
     
 	
-	int16_t speed = 300;
+	int16_t speed = 300;			//MAGIC NUMBER
 	int16_t speed_correction = 0;
 
 

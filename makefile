@@ -14,6 +14,7 @@ CSRC += ./main.c \
 		./process_image.c \
 		./character_selection.c \
 		./loop_control.c \
+		./items_gestion.c \
 
 #Header folders to include
 INCDIR += 

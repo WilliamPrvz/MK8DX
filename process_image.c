@@ -233,6 +233,18 @@ uint16_t get_line_position(void){
 }
 
 
+uint32_t get_image_red_moy(void) {
+	return image_red_moy;
+}
+
+uint32_t get_image_green_moy(void) {
+	return image_green_moy;
+}
+
+uint32_t get_image_blue_moy(void) {
+	return image_blue_moy;
+}
+
 
 void process_image_start(void){
 	chThdCreateStatic(waProcessImage, sizeof(waProcessImage), NORMALPRIO, ProcessImage, NULL);
