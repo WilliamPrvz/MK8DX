@@ -125,7 +125,7 @@ static THD_FUNCTION(CaptureImage, arg) {
 }
 
 
-static THD_WORKING_AREA(waProcessImage, 1024);
+static THD_WORKING_AREA(waProcessImage, 4096);
 static THD_FUNCTION(ProcessImage, arg) {
 
     chRegSetThreadName(__FUNCTION__);
@@ -154,8 +154,18 @@ static THD_FUNCTION(ProcessImage, arg) {
 		for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
 			//extracts first 5bits of the first byte
 			//takes nothing from the second byte
-			image_red[i/2] = (uint8_t)img_buff_ptr[i]&0xF8;
+			image_red[i/2] = (((uint8_t)img_buff_ptr[i])>>3)&0x1F;
+
+			//extracts last 5bits of the second byte
+			//takes nothing from the first byte
+			image_blue[i/2] = (uint8_t)img_buff_ptr[i+1]&0x1F;
+
+			//extracts first 5bits of the first byte
+			//takes nothing from the second byte
+			image_green[i/2] = ((((uint8_t)img_buff_ptr[i])<<3)&0x38) + ((((uint8_t)img_buff_ptr[i+1])>>5)&0x07);
 		}
+
+		lineWidth = extract_line_width(image_red);
 
 //		//Extracts only the green pixels
 //
@@ -169,32 +179,39 @@ static THD_FUNCTION(ProcessImage, arg) {
 //		}
 
 
-//		//Extracts only the blue pixels
-//
+		//Extracts only the blue pixels
+
 //		for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
 //			//extracts last 5bits of the second byte
 //			//takes nothing from the first byte
 //			image_blue[i/2] = ((uint8_t)img_buff_ptr[i+1])&0x1F;
 //		}
 
-//		for(uint16_t i = 0; i < (2 * (IMAGE_BUFFER_SIZE)) ; i+=2){
+		for(uint16_t i = (2*(IMAGE_BUFFER_SIZE/2 - 10)) ; i < (2 * (IMAGE_BUFFER_SIZE/2 + 10)) ; i+=2){
+
+
+//			chprintf((BaseSequentialStream *)&SDU1, "[instantanée no %d RED = %d ]\r\n",i, image_red[i/2]);
 //
-//			image_red_moy 	= image_red_moy 	+ image_red[i/2];
-//			image_green_moy = image_green_moy 	+ image_green[i/2];
-//			image_blue_moy 	= image_blue_moy 	+ image_blue[i/2];
-//		}
+//			for(uint32_t i = 0 ; i < 210000 ; i++){
+//				__asm__ volatile ("nop");
+//			}
+			image_red_moy 	= image_red_moy     + image_red[i/2];
+			image_green_moy = image_green_moy 	+ image_green[i/2];
+			image_blue_moy 	= image_blue_moy 	+ image_blue[i/2];
+		}
 //
-//		image_red_moy = image_red_moy/(2*IMAGE_BUFFER_SIZE);
-//		image_red_moy = image_green_moy/(2*THRESHOLD);
-//		image_red_moy = image_blue_moy/(2*THRESHOLD);
+		image_red_moy = image_red_moy/(2*10);
+		image_green_moy = image_green_moy/(2*10);
+		image_blue_moy = image_blue_moy/(2*10);
 //
-//		chprintf((BaseSequentialStream *)&SDU1, "[RED = %d\r\n]", image_red_moy);
-//		chprintf((BaseSequentialStream *)&SDU1, "[GREEN = %d\r\n]", image_green_moy);
-//		chprintf((BaseSequentialStream *)&SDU1, "[BLUE = %d\r\n]", image_blue_moy);
+
+
+		chprintf((BaseSequentialStream *)&SDU1, "[RED = %d]\r\n", image_red_moy);
+		chprintf((BaseSequentialStream *)&SDU1, "[GREEN = %d\r\n]", image_green_moy);
+		chprintf((BaseSequentialStream *)&SDU1, "[BLUE = %d\r\n]", image_blue_moy);
 
 
 		//search for a line in the image and gets its width in pixels
-		lineWidth = extract_line_width(image_red);
 
 
 
