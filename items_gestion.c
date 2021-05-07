@@ -9,6 +9,7 @@
 #include <motors.h>
 #include <pi_regulator.h>
 #include <process_image.h>
+#include <items_gestion.h>
 #include <loop_control.h>
 #include <button.h>
 #include <audio/play_sound_file.h>
@@ -16,7 +17,7 @@
 
 
 static THD_WORKING_AREA(waItemsGestion, 256);
-static THD_FUNCTION(LoopItemsGestion, arg) {
+static THD_FUNCTION(ItemsGestion, arg) {
 	
 	chRegSetThreadName(__FUNCTION__);
 	(void)arg;
@@ -29,8 +30,8 @@ static THD_FUNCTION(LoopItemsGestion, arg) {
 		
 		if(get_image_red_moy() > RED_THRESHOLD) {
 			
-			right_motor_set_speed(400);			//MAGIC NUMBER A MODIF
-			left_motor_set_speed(400);
+			right_motor_set_speed(1000);			//MAGIC NUMBER A MODIF
+			left_motor_set_speed(1000);
 			
 			chThdSleepMilliseconds(2000);		//mushroom duration
 			
@@ -39,7 +40,7 @@ static THD_FUNCTION(LoopItemsGestion, arg) {
 		}
 		
 		
-		if(get_image_green_moy > GREEN_THRESHOLD) {
+		if(get_image_green_moy() > GREEN_THRESHOLD) {
 			
 			left_motor_set_speed(0);
 			
@@ -48,7 +49,8 @@ static THD_FUNCTION(LoopItemsGestion, arg) {
 			left_motor_set_speed(300);
 		}
 		
-		
+		//100Hz
+		chThdSleepUntilWindowed(time, time + MS2ST(10));
 	}
 	
 	

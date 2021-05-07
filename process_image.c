@@ -15,6 +15,10 @@
 
 static uint16_t line_position = IMAGE_BUFFER_SIZE/2;	//bottom line
 
+static uint32_t image_red_moy = 0;
+static uint32_t image_green_moy = 0;
+static uint32_t image_blue_moy = 0;
+
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
 
@@ -199,16 +203,11 @@ static THD_FUNCTION(ProcessImage, arg) {
 			image_green_moy = image_green_moy 	+ image_green[i/2];
 			image_blue_moy 	= image_blue_moy 	+ image_blue[i/2];
 		}
-//
+
 		image_red_moy = image_red_moy/(2*10);
 		image_green_moy = image_green_moy/(2*10);
 		image_blue_moy = image_blue_moy/(2*10);
-//
 
-
-		chprintf((BaseSequentialStream *)&SDU1, "[RED = %d]\r\n", image_red_moy);
-		chprintf((BaseSequentialStream *)&SDU1, "[GREEN = %d\r\n]", image_green_moy);
-		chprintf((BaseSequentialStream *)&SDU1, "[BLUE = %d\r\n]", image_blue_moy);
 
 
 		//search for a line in the image and gets its width in pixels
