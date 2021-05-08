@@ -69,35 +69,39 @@ static THD_FUNCTION(PiRegulator, arg) {
 		time = chVTGetSystemTime();
 
 		if(!get_circuit_completed()) {
-			
-	//        //computes the speed to give to the motors
-	//        //distance_cm is modified by the image processing thread
-	//        speed = pi_regulator(get_distance_cm(), GOAL_DISTANCE);
-
-			//computes a correction factor to let the robot rotate to be in front of the line
-			speed_correction = (get_line_position() - (IMAGE_BUFFER_SIZE/2));
-
-			//if the line is nearly in front of the camera, don't rotate
-			if(abs(speed_correction) < ROTATION_THRESHOLD){
-				speed_correction = 0;
-			}
-
-			//applies the speed from the PI regulator and the correction for the rotation
-			right_motor_set_speed(speed - ROTATION_COEFF * speed_correction);
-			left_motor_set_speed(speed + ROTATION_COEFF * speed_correction);
-			
 			//dealing with items
 			
 			if(get_mushroom()) {
 				
-				right_motor_set_speed(800);		// MAGIC NUMBER : MUSHROOM_SPEED
-				left_motor_set_speed(800);
+				speed = 800;		// MAGIC NUMBER : MUSHROOM_SPEED
 				
-				chThdSleepMilliseconds(2000);		//mushroom duration
+				//chThdSleepMilliseconds(2000);		//mushroom duration
 			
-				right_motor_set_speed(300);			//REMPLACER PLUS TARD PAR LE DEFINE USUAL_SPEED
-				left_motor_set_speed(300);
+				//speed = 300;			//REMPLACER PLUS TARD PAR LE DEFINE USUAL_SPEED
+				
 			}
+			
+			//if the robot encounters a shell then the PI regulator isn't taken into account
+			
+			if (!get_shell()) {
+			
+		//        //computes the speed to give to the motors
+		//        //distance_cm is modified by the image processing thread
+		//        speed = pi_regulator(get_distance_cm(), GOAL_DISTANCE);
+
+				//computes a correction factor to let the robot rotate to be in front of the line
+				speed_correction = (get_line_position() - (IMAGE_BUFFER_SIZE/2));
+
+				//if the line is nearly in front of the camera, don't rotate
+				if(abs(speed_correction) < ROTATION_THRESHOLD){
+					speed_correction = 0;
+				}
+
+				//applies the speed from the PI regulator and the correction for the rotation
+				right_motor_set_speed(speed - ROTATION_COEFF * speed_correction);
+				left_motor_set_speed(speed + ROTATION_COEFF * speed_correction);
+			}
+
 			
 			if(get_shell()) {
 					

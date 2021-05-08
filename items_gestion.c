@@ -30,7 +30,7 @@ static THD_FUNCTION(ItemsGestion, arg) {
 		
 		time = chVTGetSystemTime();
 		
-		if((get_image_red_moy()>RED_THRESHOLD)&&(get_image_green_moy<GREEN_THRESHOLD)) {
+		if((get_image_red_moy()>RED_THRESHOLD)&&(get_image_green_moy()<GREEN_THRESHOLD)) {
 			
 			mushroom = true;
 			
