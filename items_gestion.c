@@ -44,8 +44,8 @@ static THD_FUNCTION(ItemsGestion, arg) {
 		if((get_image_green_moy()>GREEN_THRESHOLD)) {
 			
 			shell = true;
-			chThdSleepMilliseconds(2000);
-			shell = false;
+			//chThdSleepMilliseconds(2000);
+			//shell = false;
 			 
 		}
 		
