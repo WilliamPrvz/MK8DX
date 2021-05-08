@@ -13,6 +13,7 @@
 #include <pi_regulator.h>
 #include <process_image.h>
 #include <loop_control.h>
+#include <items_gestion.h>
 #include <button.h>
 #include <audio/play_sound_file.h>
 #include <audio/audio_thread.h>
@@ -84,6 +85,28 @@ static THD_FUNCTION(PiRegulator, arg) {
 			//applies the speed from the PI regulator and the correction for the rotation
 			right_motor_set_speed(speed - ROTATION_COEFF * speed_correction);
 			left_motor_set_speed(speed + ROTATION_COEFF * speed_correction);
+			
+			//dealing with items
+			
+			if(get_mushroom()) {
+				
+				right_motor_set_speed(800);		// MAGIC NUMBER : MUSHROOM_SPEED
+				left_motor_set_speed(800);
+				
+				chThdSleepMilliseconds(2000);		//mushroom duration
+			
+				right_motor_set_speed(300);			//REMPLACER PLUS TARD PAR LE DEFINE USUAL_SPEED
+				left_motor_set_speed(300);
+			}
+			
+			if(get_shell()) {
+					
+				left_motor_set_speed(0);
+				
+				chThdSleepMilliseconds(2000);
+				
+				left_motor_set_speed(300);
+			}			
 		}
 
 		else {

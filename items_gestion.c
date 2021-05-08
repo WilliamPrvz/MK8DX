@@ -15,6 +15,8 @@
 #include <audio/play_sound_file.h>
 #include <audio/audio_thread.h>
 
+static bool mushroom = false;
+static bool shell = false;
 
 static THD_WORKING_AREA(waItemsGestion, 256);
 static THD_FUNCTION(ItemsGestion, arg) {
@@ -30,23 +32,27 @@ static THD_FUNCTION(ItemsGestion, arg) {
 		
 		if(get_image_red_moy() > RED_THRESHOLD) {
 			
-			right_motor_set_speed(1000);			//MAGIC NUMBER A MODIF
-			left_motor_set_speed(1000);
+			mushroom = true;
 			
-			chThdSleepMilliseconds(2000);		//mushroom duration
+			//right_motor_set_speed(1000);			//MAGIC NUMBER A MODIF
+			//left_motor_set_speed(1000);
 			
-			right_motor_set_speed(300);			//METTRE SPEED EN VARIABLE GLOBALE ?
-			left_motor_set_speed(300);		
+			//chThdSleepMilliseconds(2000);		//mushroom duration
+			
+			//right_motor_set_speed(300);			//METTRE SPEED EN VARIABLE GLOBALE ?
+			//left_motor_set_speed(300);		
 		}
 		
 		
 		if(get_image_green_moy() > GREEN_THRESHOLD) {
 			
-			left_motor_set_speed(0);
+			shell = true; 
 			
-			chThdSleepMilliseconds(2000);
+			//left_motor_set_speed(0);
 			
-			left_motor_set_speed(300);
+			//chThdSleepMilliseconds(2000);
+			
+			//left_motor_set_speed(300);
 		}
 		
 		//100Hz
@@ -58,4 +64,12 @@ static THD_FUNCTION(ItemsGestion, arg) {
 
 void items_gestion_start(void){
 	chThdCreateStatic(waItemsGestion, sizeof(waItemsGestion), NORMALPRIO, ItemsGestion, NULL);
+}
+
+bool get_mushroom(void) {
+	return mushroom;
+}
+
+bool get_shell(void) {
+	return shell;
 }

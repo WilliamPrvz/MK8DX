@@ -5,6 +5,8 @@
 #define GREEN_THRESHOLD 	30
 
 void items_gestion_start(void);
+bool get_mushroom(void);
+bool get_shell(void);
 
 
 #endif /* ITEMS_GESTION_H_ */
