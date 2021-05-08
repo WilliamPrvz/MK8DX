@@ -68,7 +68,10 @@ static THD_FUNCTION(PiRegulator, arg) {
 
 		time = chVTGetSystemTime();
 
+
 		if(!get_circuit_completed()) {
+
+			speed = 300;
 			//dealing with items
 			
 

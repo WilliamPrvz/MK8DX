@@ -1,7 +1,7 @@
 #ifndef ITEMS_GESTION_H_
 #define ITEMS_GESTION_H_
 
-#define RED_THRESHOLD 	30 
+#define RED_THRESHOLD 	100
 #define GREEN_THRESHOLD 	300
 
 void items_gestion_start(void);

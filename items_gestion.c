@@ -18,7 +18,7 @@
 static bool mushroom = false;
 static bool shell = false;
 
-static THD_WORKING_AREA(waItemsGestion, 256);
+static THD_WORKING_AREA(waItemsGestion, 1024);
 static THD_FUNCTION(ItemsGestion, arg) {
 	
 	chRegSetThreadName(__FUNCTION__);
@@ -30,12 +30,14 @@ static THD_FUNCTION(ItemsGestion, arg) {
 		
 		time = chVTGetSystemTime();
 		
-		chprintf((BaseSequentialStream *)&SDU1, "Wow=%3d\r\n\n", get_image_red_moy());
+		//chprintf((BaseSequentialStream *)&SDU1, "Wow=%3d\r\n\n", get_image_red_moy());
 
 		if((get_image_red_moy()>RED_THRESHOLD)) {
 
-			mushroom = true;
 
+			mushroom = true;
+			chThdSleepMilliseconds(2000);
+			mushroom = false;
 		}
 		
 		
