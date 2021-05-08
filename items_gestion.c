@@ -30,29 +30,17 @@ static THD_FUNCTION(ItemsGestion, arg) {
 		
 		time = chVTGetSystemTime();
 		
-		if(get_image_red_moy() > RED_THRESHOLD) {
+		if((get_image_red_moy()>RED_THRESHOLD)&&(get_image_green_moy<GREEN_THRESHOLD)) {
 			
 			mushroom = true;
 			
-			//right_motor_set_speed(1000);			//MAGIC NUMBER A MODIF
-			//left_motor_set_speed(1000);
-			
-			//chThdSleepMilliseconds(2000);		//mushroom duration
-			
-			//right_motor_set_speed(300);			//METTRE SPEED EN VARIABLE GLOBALE ?
-			//left_motor_set_speed(300);		
 		}
 		
 		
-		if(get_image_green_moy() > GREEN_THRESHOLD) {
+		if((get_image_green_moy()>GREEN_THRESHOLD)&&(get_image_red_moy()<RED_THRESHOLD)) {
 			
-			shell = true; 
-			
-			//left_motor_set_speed(0);
-			
-			//chThdSleepMilliseconds(2000);
-			
-			//left_motor_set_speed(300);
+			shell = true;
+			 
 		}
 		
 		//100Hz
