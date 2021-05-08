@@ -30,10 +30,12 @@ static THD_FUNCTION(ItemsGestion, arg) {
 		
 		time = chVTGetSystemTime();
 		
-		if((get_image_red_moy()>RED_THRESHOLD)&&(get_image_green_moy()<GREEN_THRESHOLD)) {
-			
+		chprintf((BaseSequentialStream *)&SDU1, "Wow=%3d\r\n\n", get_image_red_moy());
+
+		if((get_image_red_moy()>RED_THRESHOLD)) {
+
 			mushroom = true;
-			
+
 		}
 		
 		

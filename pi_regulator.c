@@ -71,6 +71,9 @@ static THD_FUNCTION(PiRegulator, arg) {
 		if(!get_circuit_completed()) {
 			//dealing with items
 			
+
+			//chprintf((BaseSequentialStream *)&SDU1, "mushroom ?= %d\r\n\n", get_mushroom());
+
 			if(get_mushroom()) {
 				
 				speed = 800;		// MAGIC NUMBER : MUSHROOM_SPEED
@@ -79,11 +82,16 @@ static THD_FUNCTION(PiRegulator, arg) {
 			
 				//speed = 300;			//REMPLACER PLUS TARD PAR LE DEFINE USUAL_SPEED
 				
+				//chprintf((BaseSequentialStream *)&SDU1, "if mushroom speed= %d\r\n\n", speed);
+
 			}
 			
 			//if the robot encounters a shell then the PI regulator isn't taken into account
 			
 			if (!get_shell()) {
+
+				//chprintf((BaseSequentialStream *)&SDU1, "speed= %d\r\n\n", speed);
+
 			
 		//        //computes the speed to give to the motors
 		//        //distance_cm is modified by the image processing thread

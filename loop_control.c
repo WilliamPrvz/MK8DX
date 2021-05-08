@@ -33,7 +33,7 @@ static THD_FUNCTION(LoopControl, arg) {
 		
 		if ((get_prox(IR_RIGHT) > PROXIMITY_THRESHOLD)&&(get_prox(IR_LEFT) > PROXIMITY_THRESHOLD)){
 			
-			++loop_number;
+			loop_number++;
 			chThdSleepMilliseconds(1000); // makes sure that it increments loop_number only once
 
 		}

@@ -13,11 +13,11 @@
 
 #include <process_image.h>
 
-static uint16_t line_position = IMAGE_BUFFER_SIZE/2;	//bottom line
+static uint16_t line_position = IMAGE_BUFFER_SIZE/2;
 
-static uint32_t image_red_moy = 0;
-static uint32_t image_green_moy = 0;
-static uint32_t image_blue_moy = 0;
+static uint16_t image_red_moy = 0;
+static uint16_t image_green_moy = 0;
+static uint16_t image_blue_moy = 0;
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
@@ -139,9 +139,9 @@ static THD_FUNCTION(ProcessImage, arg) {
 	uint8_t image_red[IMAGE_BUFFER_SIZE] = {0};
 	uint8_t image_green[IMAGE_BUFFER_SIZE] = {0};
 	uint8_t image_blue[IMAGE_BUFFER_SIZE] = {0};
-	uint32_t image_red_moy = 0;
-	uint32_t image_green_moy = 0;
-	uint32_t image_blue_moy = 0;
+//	uint32_t image_red_moy = 0;
+//	uint32_t image_green_moy = 0;
+//	uint32_t image_blue_moy = 0;
 
 
 	uint16_t lineWidth = 0;
@@ -154,51 +154,26 @@ static THD_FUNCTION(ProcessImage, arg) {
 		//gets the pointer to the array filled with the last image in RGB565    
 		img_buff_ptr = dcmi_get_last_image_ptr();
 
-		//Extracts only the red pixels
 		for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
 			//extracts first 5bits of the first byte
 			//takes nothing from the second byte
-			image_red[i/2] = (((uint8_t)img_buff_ptr[i])>>3)&0x1F;
+			image_red[i/2] = (uint8_t)img_buff_ptr[i]&0xF8;
+
+			//extracts last 3bits of the first byte
+			//takes first 3 bits from the second byte
+			image_green[i/2] = ((uint8_t)img_buff_ptr[i]&0x07)<<5 | ((uint8_t)img_buff_ptr[i+1]&0xE0)>>3;
 
 			//extracts last 5bits of the second byte
 			//takes nothing from the first byte
-			image_blue[i/2] = (uint8_t)img_buff_ptr[i+1]&0x1F;
+			image_blue[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F)<<3;
 
-			//extracts first 5bits of the first byte
-			//takes nothing from the second byte
-			image_green[i/2] = ((((uint8_t)img_buff_ptr[i])<<3)&0x38) + ((((uint8_t)img_buff_ptr[i+1])>>5)&0x07);
 		}
 
 		lineWidth = extract_line_width(image_red);
 
-//		//Extracts only the green pixels
-//
-//		for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
-//
-//			//extracts last 3bits of the first byte
-//			image_green[i/2] = (uint8_t)img_buff_ptr[i]&0x07;
-//
-////			//and first 3 bits of the second byte
-////			image_green[i/2] = (uint8_t)img_buff_ptr[i+1]&0xE0;
-//		}
-
-
-		//Extracts only the blue pixels
-
-//		for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
-//			//extracts last 5bits of the second byte
-//			//takes nothing from the first byte
-//			image_blue[i/2] = ((uint8_t)img_buff_ptr[i+1])&0x1F;
-//		}
-
 		for(uint16_t i = (2*(IMAGE_BUFFER_SIZE/2 - 10)) ; i < (2 * (IMAGE_BUFFER_SIZE/2 + 10)) ; i+=2){
 
 
-//			chprintf((BaseSequentialStream *)&SDU1, "[instantanée no %d RED = %d ]\r\n",i, image_red[i/2]);
-//
-//			for(uint32_t i = 0 ; i < 210000 ; i++){
-//				__asm__ volatile ("nop");
-//			}
 			image_red_moy 	= image_red_moy     + image_red[i/2];
 			image_green_moy = image_green_moy 	+ image_green[i/2];
 			image_blue_moy 	= image_blue_moy 	+ image_blue[i/2];
@@ -208,9 +183,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 		image_green_moy = image_green_moy/(2*10);
 		image_blue_moy = image_blue_moy/(2*10);
 
-
-
-		//search for a line in the image and gets its width in pixels
+		//chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r\n\n", image_red_moy);
 
 
 
@@ -232,15 +205,15 @@ uint16_t get_line_position(void){
 }
 
 
-uint32_t get_image_red_moy(void) {
+uint16_t get_image_red_moy(void) {
 	return image_red_moy;
 }
 
-uint32_t get_image_green_moy(void) {
+uint16_t get_image_green_moy(void) {
 	return image_green_moy;
 }
 
-uint32_t get_image_blue_moy(void) {
+uint16_t get_image_blue_moy(void) {
 	return image_blue_moy;
 }
 
