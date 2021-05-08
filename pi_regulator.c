@@ -115,9 +115,18 @@ static THD_FUNCTION(PiRegulator, arg) {
 
 			
 			if(get_shell()) {
-					
-				left_motor_set_speed(800);
-				right_motor_set_speed(-800);
+				
+				left_motor_set_pos(0);
+				right_motor_set_pos(0);	
+								
+				while(left_motor_get_pos()<PERIMETER_EPUCK*(1000/13)) {
+					left_motor_set_speed(500);
+					right_motor_set_speed(-500);
+					//chprintf((BaseSequentialStream *)&SDU1, "motor position = %3d\r\n\n", left_motor_get_pos());
+				}
+				left_motor_set_speed(0);
+				right_motor_set_speed(0);
+
 
 			}			
 		}

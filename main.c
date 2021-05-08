@@ -24,6 +24,7 @@
 #include <pi_regulator.h>
 #include <process_image.h>
 #include <character_selection.h>
+#include <items_gestion.h>
 
 #include <button.h>
 

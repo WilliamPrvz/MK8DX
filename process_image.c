@@ -183,7 +183,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 		image_green_moy = image_green_moy/(2*10);
 		image_blue_moy = image_blue_moy/(2*10);
 
-		//chprintf((BaseSequentialStream *)&SDU1, "R=%3d\r\n\n", image_red_moy);
+		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n ", image_red_moy, image_green_moy, image_blue_moy);
 
 
 
