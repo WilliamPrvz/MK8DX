@@ -116,15 +116,15 @@ static THD_FUNCTION(PiRegulator, arg) {
 			
 			if(get_shell()) {
 					
-				left_motor_set_speed(500);
-				right_motor_set_speed(-500);
+				left_motor_set_speed(800);
+				right_motor_set_speed(-800);
 
 			}			
 		}
 
 		else {
 			
-			while (speed > 0){
+			while (speed > 100){
 				
 				right_motor_set_speed(speed);
 				left_motor_set_speed(speed);
