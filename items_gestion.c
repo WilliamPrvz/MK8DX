@@ -32,16 +32,16 @@ static THD_FUNCTION(ItemsGestion, arg) {
 		
 		//chprintf((BaseSequentialStream *)&SDU1, "Wow=%3d\r\n\n", get_image_red_moy());
 
-//		if((get_image_red_moy()>RED_THRESHOLD)) {
-//
-//
-//			mushroom = true;
-//			chThdSleepMilliseconds(2000);
-//			mushroom = false;
-//		}
+		if((get_image_red_moy()>RED_THRESHOLD)&&(get_image_green_moy()<GREEN_THRESHOLD)) {
+
+
+			mushroom = true;
+			chThdSleepMilliseconds(2000);
+			mushroom = false;
+		}
 		
 		
-		if((get_image_green_moy()>GREEN_THRESHOLD)) {
+		if((get_image_green_moy()>GREEN_THRESHOLD)&&(get_image_red_moy()<RED_THRESHOLD)) {
 			
 			shell = true;
 			chThdSleepMilliseconds(100);
