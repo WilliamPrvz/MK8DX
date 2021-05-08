@@ -32,23 +32,26 @@ static THD_FUNCTION(ItemsGestion, arg) {
 		
 		//chprintf((BaseSequentialStream *)&SDU1, "Wow=%3d\r\n\n", get_image_red_moy());
 
-		if((get_image_red_moy()>RED_THRESHOLD)) {
-
-
-			mushroom = true;
-			chThdSleepMilliseconds(2000);
-			mushroom = false;
-		}
+//		if((get_image_red_moy()>RED_THRESHOLD)) {
+//
+//
+//			mushroom = true;
+//			chThdSleepMilliseconds(2000);
+//			mushroom = false;
+//		}
 		
 		
-		if((get_image_green_moy()>GREEN_THRESHOLD)&&(get_image_red_moy()<RED_THRESHOLD)) {
+		if((get_image_green_moy()>GREEN_THRESHOLD)) {
 			
 			shell = true;
+			chThdSleepMilliseconds(2000);
+			shell = false;
 			 
 		}
 		
 		//100Hz
 		chThdSleepUntilWindowed(time, time + MS2ST(10));
+
 	}
 	
 	

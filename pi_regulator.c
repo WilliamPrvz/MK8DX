@@ -116,11 +116,9 @@ static THD_FUNCTION(PiRegulator, arg) {
 			
 			if(get_shell()) {
 					
-				left_motor_set_speed(0);
-				
-				chThdSleepMilliseconds(2000);
-				
-				left_motor_set_speed(300);
+				left_motor_set_speed(500);
+				right_motor_set_speed(-500);
+
 			}			
 		}
 
