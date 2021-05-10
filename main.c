@@ -86,7 +86,7 @@ int main(void)
 	po8030_start();
 
 	po8030_set_awb(FALSE);
-//	po8030_set_rgb_gain(0X8D, 0x40, 0x5D);
+	po8030_set_rgb_gain(0X8D, 0x60, 0x5D);
 	//inits the motors
 	motors_init();
 

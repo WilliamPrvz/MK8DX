@@ -41,8 +41,6 @@ static THD_FUNCTION(LoopControl, arg) {
 		if (loop_number == MAX_LOOPS){
 		
 			circuit_completed = true;
-			playSoundFile("Son_MK8DX/mario_finish.wav", SF_FORCE_CHANGE);
-			
 		}
 
 		chThdSleepUntilWindowed(time, time + MS2ST(10));
