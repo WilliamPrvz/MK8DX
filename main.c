@@ -24,6 +24,7 @@
 #include <pi_regulator.h>
 #include <process_image.h>
 #include <character_selection.h>
+#include <items_gestion.h>
 
 #include <button.h>
 
@@ -83,6 +84,9 @@ int main(void)
     //starts the camera
     dcmi_start();
 	po8030_start();
+
+	po8030_set_awb(FALSE);
+	po8030_set_rgb_gain(0X8D, 0x60, 0x5D);
 	//inits the motors
 	motors_init();
 
@@ -94,8 +98,10 @@ int main(void)
 
 	//stars the threads for the pi regulator and the processing of the image
 
-
 	process_image_start();
+	items_gestion_start();
+
+
 
 	//stars the threads for the character selection
 	character_selection_start();

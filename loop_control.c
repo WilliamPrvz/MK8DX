@@ -33,7 +33,7 @@ static THD_FUNCTION(LoopControl, arg) {
 		
 		if ((get_prox(IR_RIGHT) > PROXIMITY_THRESHOLD)&&(get_prox(IR_LEFT) > PROXIMITY_THRESHOLD)){
 			
-			++loop_number;
+			loop_number++;
 			chThdSleepMilliseconds(1000); // makes sure that it increments loop_number only once
 
 		}
@@ -41,8 +41,6 @@ static THD_FUNCTION(LoopControl, arg) {
 		if (loop_number == MAX_LOOPS){
 		
 			circuit_completed = true;
-			playSoundFile("Son_MK8DX/mario_finish.wav", SF_FORCE_CHANGE);
-			
 		}
 
 		chThdSleepUntilWindowed(time, time + MS2ST(10));

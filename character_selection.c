@@ -150,7 +150,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
 							clear_leds();
 							
 						break;
-		}
+			}
 
 
 		}
