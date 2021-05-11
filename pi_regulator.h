@@ -1,8 +1,10 @@
 #ifndef PI_REGULATOR_H
 #define PI_REGULATOR_H
 
-#define PI		3.1415926536f
+#define PI					3.1415926536f
 #define WHEEL_DISTANCE		5.35f
+#define NSTEP_ONE_TURN		1000
+#define WHEEL_PERIMETER		13
 #define PERIMETER_EPUCK		(PI*WHEEL_DISTANCE)
 
 //start the PI regulator thread

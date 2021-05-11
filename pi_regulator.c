@@ -121,11 +121,12 @@ static THD_FUNCTION(PiRegulator, arg) {
 				left_motor_set_pos(0);
 				right_motor_set_pos(0);	
 								
-				while(left_motor_get_pos()<PERIMETER_EPUCK*(1000/13)) {
-					left_motor_set_speed(500);
-					right_motor_set_speed(-500);
+				while(left_motor_get_pos()<=PERIMETER_EPUCK*NSTEP_ONE_TURN/WHEEL_PERIMETER) {
+					left_motor_set_speed(800);
+					right_motor_set_speed(-800);
 					//chprintf((BaseSequentialStream *)&SDU1, "motor position = %3d\r\n\n", left_motor_get_pos());
 				}
+
 				left_motor_set_speed(speed);
 				right_motor_set_speed(speed);
 

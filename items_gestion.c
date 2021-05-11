@@ -45,7 +45,7 @@ static THD_FUNCTION(ItemsGestion, arg) {
 			shell = true;
 			chThdSleepMilliseconds(100);
 			shell = false;
-			chThdSleepMilliseconds(2000);
+			chThdSleepMilliseconds(3000);
 
 		}
 		
