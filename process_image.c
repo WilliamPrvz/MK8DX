@@ -139,6 +139,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 	uint8_t image_red[IMAGE_BUFFER_SIZE] = {0};
 	uint8_t image_green[IMAGE_BUFFER_SIZE] = {0};
 	uint8_t image_blue[IMAGE_BUFFER_SIZE] = {0};
+	uint8_t image[IMAGE_BUFFER_SIZE] = {0};
 //	uint32_t image_red_moy = 0;
 //	uint32_t image_green_moy = 0;
 //	uint32_t image_blue_moy = 0;
@@ -169,6 +170,11 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 		}
 
+
+		for (uint16_t i = 0; i < IMAGE_BUFFER_SIZE; i++){
+			image [i] = image_red[i]+image_blue[i];
+		}
+
 		lineWidth = extract_line_width(image_red);
 
 		for(uint16_t i = (2*(IMAGE_BUFFER_SIZE/2 - 10)) ; i < (2 * (IMAGE_BUFFER_SIZE/2 + 10)) ; i+=2){
@@ -183,7 +189,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 		image_green_moy = image_green_moy/(2*10);
 		image_blue_moy = image_blue_moy/(2*10);
 
-		//chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n ", image_red_moy, image_green_moy, image_blue_moy);
+//		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n ", image_red_moy, image_green_moy, image_blue_moy);
 
 
 

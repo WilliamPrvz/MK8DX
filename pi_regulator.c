@@ -124,18 +124,18 @@ static THD_FUNCTION(PiRegulator, arg) {
 					right_motor_set_speed(-500);
 					//chprintf((BaseSequentialStream *)&SDU1, "motor position = %3d\r\n\n", left_motor_get_pos());
 				}
-//				left_motor_set_speed(speed);
-//				right_motor_set_speed(speed);
-//
-//				chThdSleepMilliseconds(1000);
+				left_motor_set_speed(speed);
+				right_motor_set_speed(speed);
+
+				chThdSleepMilliseconds(1000);
 
 			}			
 		}
 
 		else {
 			
-			playSoundFile("Son_MK8DX/mario_finish.wav", SF_FORCE_CHANGE);
-
+			playSoundFile("Son_MK8DX/mario_finish.wav", SF_SIMPLE_PLAY);
+			//chThdSleepMilliseconds(3000);
 
 			while (speed > 100){
 				
@@ -147,6 +147,8 @@ static THD_FUNCTION(PiRegulator, arg) {
 			}
 			right_motor_set_speed(0);
 			left_motor_set_speed(0);
+
+
 
 		}
 

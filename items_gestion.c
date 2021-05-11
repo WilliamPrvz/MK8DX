@@ -30,7 +30,6 @@ static THD_FUNCTION(ItemsGestion, arg) {
 		
 		time = chVTGetSystemTime();
 		
-		//chprintf((BaseSequentialStream *)&SDU1, "Wow=%3d\r\n\n", get_image_red_moy());
 
 		if((get_image_red_moy()>RED_HIGH_THRESHOLD)&&(get_image_green_moy()<GREEN_LOW_THRESHOLD)) {
 
@@ -39,15 +38,15 @@ static THD_FUNCTION(ItemsGestion, arg) {
 			chThdSleepMilliseconds(2000);
 			mushroom = false;
 		}
-		
-		
+
+
 		if((get_image_green_moy()>GREEN_HIGH_THRESHOLD)&&(get_image_red_moy()<RED_LOW_THRESHOLD)) {
-			
+
 			shell = true;
 			chThdSleepMilliseconds(100);
 			shell = false;
 			chThdSleepMilliseconds(2000);
-			 
+
 		}
 		
 		//100Hz
