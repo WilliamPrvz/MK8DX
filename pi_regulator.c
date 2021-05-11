@@ -19,6 +19,8 @@
 #include <audio/audio_thread.h>
 
 
+bool has_stopped = false;
+
 //simple PI regulator implementation
 int16_t pi_regulator(float distance, float goal){
 
@@ -132,9 +134,9 @@ static THD_FUNCTION(PiRegulator, arg) {
 			}			
 		}
 
-		else {
+		if ((has_stopped==false) && get_circuit_completed()){
 			
-			playSoundFile("Son_MK8DX/mario_finish.wav", SF_SIMPLE_PLAY);
+			playSoundFile("Son_MK8DX/mario_finish.wav", SF_WAIT_AND_CHANGE);
 			//chThdSleepMilliseconds(3000);
 
 			while (speed > 100){
@@ -147,6 +149,8 @@ static THD_FUNCTION(PiRegulator, arg) {
 			}
 			right_motor_set_speed(0);
 			left_motor_set_speed(0);
+
+			has_stopped = true;
 
 
 
