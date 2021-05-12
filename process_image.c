@@ -106,14 +106,14 @@ uint16_t extract_line_width(uint8_t *buffer){
 	}
 }
 
-static THD_WORKING_AREA(waCaptureImage, 256);
+static THD_WORKING_AREA(waCaptureImage, 512);
 static THD_FUNCTION(CaptureImage, arg) {
 
     chRegSetThreadName(__FUNCTION__);
     (void)arg;
 
 	//Takes pixels 0 to IMAGE_BUFFER_SIZE of the line 239 + 240 (minimum 2 lines because reasons)
-	po8030_advanced_config(FORMAT_RGB565, 0, 239, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
+    po8030_advanced_config(FORMAT_RGB565, 0, 479, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
 	dcmi_enable_double_buffering();
 	dcmi_set_capture_mode(CAPTURE_ONE_SHOT);
 	dcmi_prepare();
@@ -172,12 +172,17 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 
 		for (uint16_t i = 0; i < IMAGE_BUFFER_SIZE; i++){
-			image [i] = image_red[i]+image_green[i];
+			if (image_red[i]>image_green[i]){
+				image [i] = image_red[i];
+			}
+			else
+				image [i] = image_green[i];
+
 		}
 
-		lineWidth = extract_line_width(image);
+		lineWidth = extract_line_width(image_red);
 
-		for(uint16_t i = (2*(IMAGE_BUFFER_SIZE/2 - 10)) ; i < (2 * (IMAGE_BUFFER_SIZE/2 +10)) ; i+=2){
+		for(uint16_t i = (2*(IMAGE_BUFFER_SIZE/2 + 100)) ; i < (2 * (IMAGE_BUFFER_SIZE/2 + 120)) ; i+=2){
 
 
 			image_red_moy 	= image_red_moy     + image_red[i/2];
@@ -189,13 +194,13 @@ static THD_FUNCTION(ProcessImage, arg) {
 		image_green_moy = image_green_moy/(2*10);
 		image_blue_moy = image_blue_moy/(2*10);
 
-//		chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n ", image_red_moy, image_green_moy, image_blue_moy);
+		//chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n ", image_red_moy, image_green_moy, image_blue_moy);
 
 
 
 		if(send_to_computer){
 			//sends to the computer the image
-			SendUint8ToComputer(image_red, IMAGE_BUFFER_SIZE);
+			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
 		}
 		//invert the bool
 		send_to_computer = !send_to_computer;

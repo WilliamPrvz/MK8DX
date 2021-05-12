@@ -21,7 +21,7 @@ extern "C" {
 #define MAX_DISTANCE 			25.0f
 #define ERROR_THRESHOLD			0.1f	//[cm] because of the noise of the camera
 #define KP						2.25f
-#define KI 						0.0001f	//must not be zero
+#define KI 						0.02f	//must not be zero
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
 #define IR_LEFT					5
 #define IR_RIGHT				2

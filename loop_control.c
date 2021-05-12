@@ -38,7 +38,7 @@ static THD_FUNCTION(LoopControl, arg) {
 
 		}
 
-		if (loop_number == MAX_LOOPS){
+		if (loop_number == MAX_LOOPS+1){
 		
 			circuit_completed = true;
 		}
