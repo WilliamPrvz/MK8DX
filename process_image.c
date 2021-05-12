@@ -175,9 +175,9 @@ static THD_FUNCTION(ProcessImage, arg) {
 			image [i] = image_red[i]+image_green[i];
 		}
 
-		lineWidth = extract_line_width(image_red);
+		lineWidth = extract_line_width(image);
 
-		for(uint16_t i = (2*(IMAGE_BUFFER_SIZE/2 - 10)) ; i < (2 * (IMAGE_BUFFER_SIZE/2 + 10)) ; i+=2){
+		for(uint16_t i = (2*(IMAGE_BUFFER_SIZE/2 - 10)) ; i < (2 * (IMAGE_BUFFER_SIZE/2 +10)) ; i+=2){
 
 
 			image_red_moy 	= image_red_moy     + image_red[i/2];
