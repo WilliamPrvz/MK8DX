@@ -73,7 +73,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 
 		if(!get_circuit_completed()) {
 
-			speed = 300;
+			speed = 500;
 			//dealing with items
 			
 
@@ -81,7 +81,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 
 			if(get_mushroom()) {
 				
-				speed = 800;		// MAGIC NUMBER : MUSHROOM_SPEED
+				speed = 1000;		// MAGIC NUMBER : MUSHROOM_SPEED
 				
 				//chThdSleepMilliseconds(2000);		//mushroom duration
 			
