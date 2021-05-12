@@ -1,6 +1,16 @@
 //pi_regulator.c of TP4 camreg
 //Modified to implement the line following
 
+/*
+ * pi_regulator.c
+ *
+ *  Based on the file from TP4 CamReg.
+ *  Implements a PI regulator so that the robot keeps following the 
+ * 	black line at constant speed.
+ * 	Also modifies the behaviour of motors when items are detected.   
+ * 
+ */
+
 #include "ch.h"
 #include "hal.h"
 #include <math.h>
@@ -19,7 +29,7 @@
 #include <audio/audio_thread.h>
 
 
-bool has_stopped = false;
+bool has_stopped = false;		// makes sure the robot stops and plays the final tune only once
 
 //simple PI regulator implementation
 int16_t pi_regulator(float distance, float goal){
@@ -122,11 +132,11 @@ static THD_FUNCTION(PiRegulator, arg) {
 				right_motor_set_pos(0);	
 								
 				while(left_motor_get_pos()<=PERIMETER_EPUCK*NSTEP_ONE_TURN/WHEEL_PERIMETER) {
+					
 					left_motor_set_speed(800);
 					right_motor_set_speed(-800);
-					//chprintf((BaseSequentialStream *)&SDU1, "motor position = %3d\r\n\n", left_motor_get_pos());
 				}
-				//chprintf((BaseSequentialStream *)&SDU1, "motor position = %3d\r\n\n", left_motor_get_pos());
+
 				left_motor_set_speed(speed);
 				right_motor_set_speed(speed);
 
@@ -170,19 +180,3 @@ static THD_FUNCTION(PiRegulator, arg) {
 void pi_regulator_start(void){
 	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO, PiRegulator, NULL);
 }
-
-
-//void pi_regulator_suspend(void){
-//	chThdSuspendS();
-//}
-//
-//void pi_regulator_resume(void){
-//	chThdResume();
-//}
-
-
-//void pi_regulator_stop(void){
-//chThdTerminate(PiRegulator);
-//	chThdWait(PiRegulator);
-//	PiRegulator = NULL;
-//}

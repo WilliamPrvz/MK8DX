@@ -1,3 +1,12 @@
+/*
+ * main.c
+ *
+ *  Based on the file from TP4 CamReg.
+ *  Initializes all the threads and communications.
+ *      
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -57,16 +66,13 @@ static void serial_start(void)
 
 int main(void)
 {
-
     halInit();
     chSysInit();
     mpu_init();
 
-
-
-
     //starts the serial communication
     serial_start();
+    
     //start the USB communication
     usb_start();
     spi_comm_start();
@@ -74,10 +80,10 @@ int main(void)
     //clear the leds
     clear_leds();
 
-
-    //inits the microSD card
+    //starts the microSD card
     sdio_start();
 
+	//starts the audio
     dac_start();
     playSoundFileStart();
 
@@ -87,27 +93,24 @@ int main(void)
 
 	po8030_set_awb(FALSE);
 	po8030_set_rgb_gain(0X8D, 0x60, 0x5D);
+	
 	//inits the motors
 	motors_init();
 
-
-	//starts the threads for ir sensor
+	//starts the IR sensors
 	messagebus_init(&bus, &bus_lock, &bus_condvar);
 	proximity_start();
 	calibrate_ir();
 
-	//stars the threads for the pi regulator and the processing of the image
-
+	//starts the processing of images and the gestion of items
 	process_image_start();
 	items_gestion_start();
 
-
-
-	//stars the threads for the character selection
+	//starts the selection of characters
 	character_selection_start();
 
     /* Infinite loop. */
-    while (1) {
+    while(1){
 
     	if (button_is_pressed() && !has_been_pressed){
 
@@ -115,7 +118,7 @@ int main(void)
         	pi_regulator_start();
         	loop_control_start();
     	}
-    	//waits 1 second
+    	//waits 0.1 second
         chThdSleepMilliseconds(100);
 
     }
@@ -124,7 +127,6 @@ int main(void)
 #define STACK_CHK_GUARD 0xe2dee396
 uintptr_t __stack_chk_guard = STACK_CHK_GUARD;
 
-void __stack_chk_fail(void)
-{
+void __stack_chk_fail(void){
     chSysHalt("Stack smashing detected");
 }

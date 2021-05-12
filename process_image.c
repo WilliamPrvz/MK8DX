@@ -1,7 +1,11 @@
-//process_image.c from TP4 camreg solution
-//slightly modified for detecting a line at the bottom of the sensor
-
-
+/*
+ * process_image.c
+ *
+ *  Based on the file from TP4 CamReg.
+ *  Allows the detection of the black line of the circuit and of the 
+ *  colors for the different items.
+ *      
+ */
 
 #include "ch.h"
 #include "hal.h"
@@ -10,14 +14,13 @@
 
 #include <main.h>
 #include <camera/po8030.h>
-
 #include <process_image.h>
 
 static uint16_t line_position = IMAGE_BUFFER_SIZE/2;
 
-static uint16_t image_red_moy = 0;
-static uint16_t image_green_moy = 0;
-static uint16_t image_blue_moy = 0;
+static uint16_t image_red_ave = 0;
+static uint16_t image_green_ave = 0;
+static uint16_t image_blue_ave = 0;
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE);
@@ -87,13 +90,15 @@ uint16_t extract_line_width(uint8_t *buffer){
 			stop = 0;
 			wrong_line = 1;
 		}
-	}while(wrong_line);
+	}
+	while(wrong_line);
 
 	if(line_not_found){
 		begin = 0;
 		end = 0;
 		width = last_width;
-	}else{
+	}
+	else{
 		last_width = width = (end - begin);
 		line_position = (begin + end)/2; //gives the line position.
 	}
@@ -101,7 +106,8 @@ uint16_t extract_line_width(uint8_t *buffer){
 	//sets a maximum width or returns the measured width
 	if((PXTOCM/width) > MAX_DISTANCE){
 		return PXTOCM/MAX_DISTANCE;
-	}else{
+	}
+	else{
 		return width;
 	}
 }
@@ -140,10 +146,6 @@ static THD_FUNCTION(ProcessImage, arg) {
 	uint8_t image_green[IMAGE_BUFFER_SIZE] = {0};
 	uint8_t image_blue[IMAGE_BUFFER_SIZE] = {0};
 	uint8_t image[IMAGE_BUFFER_SIZE] = {0};
-//	uint32_t image_red_moy = 0;
-//	uint32_t image_green_moy = 0;
-//	uint32_t image_blue_moy = 0;
-
 
 	uint16_t lineWidth = 0;
 
@@ -158,26 +160,25 @@ static THD_FUNCTION(ProcessImage, arg) {
 		for(uint16_t i = 0 ; i < (2 * IMAGE_BUFFER_SIZE) ; i+=2){
 			//extracts first 5bits of the first byte
 			//takes nothing from the second byte
-			image_red[i/2] = (uint8_t)img_buff_ptr[i]&0xF8;
+			image_red[i/2] = (uint8_t)img_buff_ptr[i]&RED_MASK;
 
 			//extracts last 3bits of the first byte
 			//takes first 3 bits from the second byte
-			image_green[i/2] = ((uint8_t)img_buff_ptr[i]&0x07)<<5 | ((uint8_t)img_buff_ptr[i+1]&0xE0)>>3;
+			image_green[i/2] = ((uint8_t)img_buff_ptr[i]&GREEN_MASK_HIGH)<<5 | ((uint8_t)img_buff_ptr[i+1]&GREEN_MASK_LOW)>>3;
 
 			//extracts last 5bits of the second byte
 			//takes nothing from the first byte
-			image_blue[i/2] = ((uint8_t)img_buff_ptr[i+1]&0x1F)<<3;
+			image_blue[i/2] = ((uint8_t)img_buff_ptr[i+1]&RED_MASK)<<3;
 
 		}
-
 
 		for (uint16_t i = 0; i < IMAGE_BUFFER_SIZE; i++){
 			if (image_red[i]>image_green[i]){
 				image [i] = image_red[i];
 			}
-			else
+			else{
 				image [i] = image_green[i];
-
+			}
 		}
 
 		lineWidth = extract_line_width(image_red);
@@ -185,17 +186,14 @@ static THD_FUNCTION(ProcessImage, arg) {
 		for(uint16_t i = (2*(IMAGE_BUFFER_SIZE/2 + 100)) ; i < (2 * (IMAGE_BUFFER_SIZE/2 + 120)) ; i+=2){
 
 
-			image_red_moy 	= image_red_moy     + image_red[i/2];
-			image_green_moy = image_green_moy 	+ image_green[i/2];
-			image_blue_moy 	= image_blue_moy 	+ image_blue[i/2];
+			image_red_ave 	= image_red_ave     + image_red[i/2];
+			image_green_ave = image_green_ave 	+ image_green[i/2];
+			image_blue_ave 	= image_blue_ave 	+ image_blue[i/2];
 		}
 
-		image_red_moy = image_red_moy/(2*10);
-		image_green_moy = image_green_moy/(2*10);
-		image_blue_moy = image_blue_moy/(2*10);
-
-		//chprintf((BaseSequentialStream *)&SDU1, "R=%3d, G=%3d, B=%3d\r\n\n ", image_red_moy, image_green_moy, image_blue_moy);
-
+		image_red_ave = image_red_ave/(2*10);
+		image_green_ave = image_green_ave/(2*10);
+		image_blue_ave = image_blue_ave/(2*10);
 
 
 		if(send_to_computer){
@@ -207,9 +205,6 @@ static THD_FUNCTION(ProcessImage, arg) {
     }
 }
 
-//float get_distance_cm(void){
-//	return distance_cm;
-//} //pas besoin
 
 uint16_t get_line_position(void){
 	return line_position;
