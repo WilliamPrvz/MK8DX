@@ -13,7 +13,7 @@ CSRC += ./main.c \
 		./pi_regulator.c \
 		./process_image.c \
 		./character_selection.c \
-		./loop_control.c \
+		./lap_control.c \
 		./items_gestion.c \
 
 #Header folders to include

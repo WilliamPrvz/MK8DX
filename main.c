@@ -6,36 +6,32 @@
  *      
  */
 
-
+#include <audio/play_sound_file.h>
+#include <audio/audio_thread.h>
+#include <button.h>
+#include <camera/po8030.h>
+#include "ch.h"
+#include <fat.h>
+#include "hal.h"
+#include <leds.h>
+#include <math.h>
+#include "memory_protection.h"
+#include <motors.h>
+#include <sdio.h>
+#include "sensors/proximity.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-
-#include "ch.h"
-#include "hal.h"
-#include "memory_protection.h"
-#include <usbcfg.h>
-#include <main.h>
-#include <motors.h>
-#include <camera/po8030.h>
-#include <chprintf.h>
 #include "spi_comm.h"
-#include <fat.h>
-#include <audio/play_sound_file.h>
-#include <audio/audio_thread.h>
-#include "sensors/proximity.h"
-#include "loop_control.h"
+#include <usbcfg.h>
 
-#include <leds.h>
-#include <sdio.h>
-
-#include <pi_regulator.h>
-#include <process_image.h>
 #include <character_selection.h>
 #include <items_gestion.h>
+#include <lap_control.h>
+#include <main.h>
+#include <pi_regulator.h>
+#include <process_image.h>
 
-#include <button.h>
 
 
 messagebus_t bus;
@@ -116,7 +112,7 @@ int main(void)
 
     		has_been_pressed = true;
         	pi_regulator_start();
-        	loop_control_start();
+        	lap_control_start();
     	}
     	//waits 0.1 second
         chThdSleepMilliseconds(100);

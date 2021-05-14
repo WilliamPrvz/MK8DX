@@ -6,25 +6,18 @@
  * 	character.
  */
 
-
-#include "hal.h"
-
-#include <leds.h>
-#include <selector.h>
-#include <character_selection.h>
-#include <main.h>
-#include "usbcfg.h"
-#include "spi_comm.h"
-#include <chprintf.h>
-#include <fat.h>
 #include <audio/play_sound_file.h>
 #include <audio/audio_thread.h>
+#include <fat.h>
+#include "hal.h"
+#include <leds.h>
 #include <sdio.h>
+#include <selector.h>
+#include "spi_comm.h"
+#include "usbcfg.h"
 
+#include <character_selection.h>
 
-//FAIRE DES COMMENTAIRES PARTOUT:
-//variables à expliciter
-//couleurs RGB à mettre
 
 static THD_WORKING_AREA(waCharacterSelection, 256);
 static THD_FUNCTION(CharacterSelection, arg) {
@@ -41,7 +34,7 @@ static THD_FUNCTION(CharacterSelection, arg) {
     
     playSoundFile("Son_MK8DX/choose_character.wav", SF_FORCE_CHANGE);	// asking the user to choose a character
     
-    chThdSleepMilliseconds(2000);		// waits until the audio finishes
+    chThdSleepMilliseconds(SONG_IGNORING_TIME);		// waits until the audio finishes
     
     
 	while(1){

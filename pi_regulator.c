@@ -11,25 +11,22 @@
  * 
  */
 
+#include <audio/play_sound_file.h>
+#include <audio/audio_thread.h>
+#include <button.h>
 #include "ch.h"
 #include "hal.h"
 #include <math.h>
-#include <usbcfg.h>
-#include <chprintf.h>
-
-
-#include <main.h>
 #include <motors.h>
-#include <pi_regulator.h>
-#include <process_image.h>
-#include <loop_control.h>
+#include <usbcfg.h>
+
 #include <items_gestion.h>
-#include <button.h>
-#include <audio/play_sound_file.h>
-#include <audio/audio_thread.h>
+#include <lap_control.h>
+#include <main.h>
+#include <pi_regulator.h>
 
 
-bool has_stopped = false;		// makes sure the robot stops and plays the final tune only once
+bool has_stopped = false;		// makes sure the robot stops and plays the final melody only once
 
 //simple PI regulator implementation
 int16_t pi_regulator(float distance, float goal){
@@ -66,75 +63,56 @@ static THD_WORKING_AREA(waPiRegulator, 256);
 static THD_FUNCTION(PiRegulator, arg) {
 
     chRegSetThreadName(__FUNCTION__);
+    
     (void)arg;
 
     systime_t time;
     
-	
-	int16_t speed = 300;			//MAGIC NUMBER
+	int16_t speed = NORMAL_SPEED;
 	int16_t speed_correction = 0;
-
-
 
 	while(1){
 
 		time = chVTGetSystemTime();
 
 
-		if(!get_circuit_completed()) {
+		if(!get_circuit_completed()){
 
-			speed = 500;
-			//dealing with items
+			speed = NORMAL_SPEED;
 			
-
-			//chprintf((BaseSequentialStream *)&SDU1, "mushroom ?= %d\r\n\n", get_mushroom());
-
-			if(get_mushroom()) {
-				
-				speed = 1000;		// MAGIC NUMBER : MUSHROOM_SPEED
-				
-				//chThdSleepMilliseconds(2000);		//mushroom duration
 			
-				//speed = 300;			//REMPLACER PLUS TARD PAR LE DEFINE USUAL_SPEED
+			//dealing with items : 
+			//	coming across a mushroom gives the robot a boost of speed during a defined time (items_gestion)
+			//	coming across a green shell makes the robot stop and rotate 360 degrees before moving forward again
+
+			if(get_mushroom()){
 				
-				//chprintf((BaseSequentialStream *)&SDU1, "if mushroom speed= %d\r\n\n", speed);
+				speed = MUSHROOM_SPEED;	
 
 			}
 			
 			//if the robot encounters a shell then the PI regulator isn't taken into account
-			
-			if (!get_shell()) {
-
-				//chprintf((BaseSequentialStream *)&SDU1, "speed= %d\r\n\n", speed);
-
-			
-		//        //computes the speed to give to the motors
-		//        //distance_cm is modified by the image processing thread
-		//        speed = pi_regulator(get_distance_cm(), GOAL_DISTANCE);
-
+			if (!get_shell()){
 
 			//computes a correction factor to let the robot rotate to be in front of the line
 			speed_correction = pi_regulator(get_line_position(), IMAGE_BUFFER_SIZE/2);
-			//speed_correction = (get_line_position() - (IMAGE_BUFFER_SIZE/2));
-
-
-
-
+			
 			//applies the speed from the PI regulator and the correction for the rotation
 			right_motor_set_speed(speed -  speed_correction);
 			left_motor_set_speed(speed + speed_correction);
 			
 			}
 
-			if(get_shell()) {
+			if(get_shell()){
 				
 				left_motor_set_pos(0);
 				right_motor_set_pos(0);	
-								
-				while(left_motor_get_pos()<=PERIMETER_EPUCK*NSTEP_ONE_TURN/WHEEL_PERIMETER) {
+				
+				// computing a rotation of 360 degrees 				
+				while(left_motor_get_pos()<= PERIMETER_EPUCK*NSTEP_ONE_TURN/WHEEL_PERIMETER){
 					
-					left_motor_set_speed(800);
-					right_motor_set_speed(-800);
+					left_motor_set_speed(ROTATING_SPEED);
+					right_motor_set_speed(-ROTATING_SPEED);
 				}
 
 				left_motor_set_speed(speed);
@@ -148,9 +126,9 @@ static THD_FUNCTION(PiRegulator, arg) {
 		if ((has_stopped==false) && get_circuit_completed()){
 			
 			playSoundFile("Son_MK8DX/mario_finish.wav", SF_WAIT_AND_CHANGE);
-			//chThdSleepMilliseconds(3000);
-
-			while (speed > 100){
+			
+			//progressively decreasing the speed of the robot once the circuit is finished
+			while (speed > ENDING_SPEED){
 				
 				right_motor_set_speed(speed);
 				left_motor_set_speed(speed);
@@ -162,14 +140,10 @@ static THD_FUNCTION(PiRegulator, arg) {
 			left_motor_set_speed(0);
 
 			has_stopped = true;
-
-
-
 		}
 
 		//100Hz
 		chThdSleepUntilWindowed(time, time + MS2ST(10));
-
 
 	}
 
