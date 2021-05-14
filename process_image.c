@@ -202,11 +202,11 @@ uint16_t get_line_position(void){
 
 
 uint16_t get_image_red_moy(void) {
-	return image_red_moy;
+	return image_red_ave;
 }
 
 uint16_t get_image_green_moy(void) {
-	return image_green_moy;
+	return image_green_ave;
 }
 
 void process_image_start(void){

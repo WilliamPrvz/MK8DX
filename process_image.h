@@ -6,7 +6,7 @@
 #define GREEN_MASK_HIGH	0x07
 #define GREEN_MASK_LOW	0xE0
 
-// shifting pixels to avoid taking detecting only the black line of the coloured stickers
+// shifting pixels to avoid taking detecting only the black line of the colored stickers
 #define LEFT_SHIFT		100		
 #define RIGHT_SHIFT		120
 
