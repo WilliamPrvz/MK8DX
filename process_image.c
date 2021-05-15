@@ -28,7 +28,7 @@ static BSEMAPHORE_DECL(image_ready_sem, TRUE);
  *  Returns the line's width extracted from the image buffer given
  *  Returns 0 if line not found
  */
-uint16_t extract_line_width(uint8_t *buffer){
+void extract_line(uint8_t *buffer){
 
 	uint16_t i = 0, begin = 0, end = 0, width = 0;
 	uint8_t stop = 0, wrong_line = 0, line_not_found = 0;
@@ -102,13 +102,6 @@ uint16_t extract_line_width(uint8_t *buffer){
 		line_position = (begin + end)/2; //gives the line position.
 	}
 
-	//sets a maximum width or returns the measured width
-	if((PXTOCM/width) > MAX_DISTANCE){
-		return PXTOCM/MAX_DISTANCE;
-	}
-	else{
-		return width;
-	}
 }
 
 static THD_WORKING_AREA(waCaptureImage, 512);
@@ -145,7 +138,6 @@ static THD_FUNCTION(ProcessImage, arg) {
 	uint8_t image_green[IMAGE_BUFFER_SIZE] = {0};
 	uint8_t image[IMAGE_BUFFER_SIZE] = {0};
 
-	uint16_t lineWidth = 0;
 
 	bool send_to_computer = true;
 
@@ -174,7 +166,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 			}
 		}
 
-		lineWidth = extract_line_width(image_red);
+		extract_line(image);
 
 		for(uint16_t i = (2*(IMAGE_BUFFER_SIZE/2 + LEFT_SHIFT)) ; i < (2 * (IMAGE_BUFFER_SIZE/2 + RIGHT_SHIFT)) ; i+=2){
 			

@@ -38,7 +38,7 @@ messagebus_t bus;
 MUTEX_DECL(bus_lock);
 CONDVAR_DECL(bus_condvar);
 
-bool has_been_pressed = false;
+static bool has_been_pressed = false;
 
 
 void SendUint8ToComputer(uint8_t* data, uint16_t size) 

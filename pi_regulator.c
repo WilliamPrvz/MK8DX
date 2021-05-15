@@ -24,6 +24,7 @@
 #include <lap_control.h>
 #include <main.h>
 #include <pi_regulator.h>
+#include <process_image.h>
 
 
 bool has_stopped = false;		// makes sure the robot stops and plays the final melody only once
